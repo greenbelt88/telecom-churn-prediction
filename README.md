@@ -4,26 +4,26 @@
 
 This was my final project for GCI World 2026 (April cohort). It was framed as a proof-of-concept for an anonymised telecom provider ("Telecom") with 100,000 customers: explore the data, build a model, and deliver a business proposal that executives with no ML background can act on.
 
-| | |
-|---|---|
-| Notebook | [`telecom.ipynb`](telecom.ipynb): full, reproducible analysis |
-| Slides | [`telecom.pdf`](telecom.pdf) (editable [`telecom.pptx`](telecom.pptx)): the 15-slide proposal |
+|          |                                                                                                 |
+| -------- | ----------------------------------------------------------------------------------------------- |
+| Notebook | [`telecom.ipynb`](telecom.ipynb): full, reproducible analysis                                  |
+| Slides   | [`telecom.pdf`](telecom.pdf) (editable [`telecom.pptx`](telecom.pptx)): the 15-slide proposal |
 
 ---
 
-## Results at a glance
+## Summary of results
 
-| Metric | Value |
-|---|---|
-| Final model | LightGBM, Optuna-tuned, 5-seed average (102 features) |
-| Test AUC-ROC | 0.703 (95% CI 0.696-0.709) |
-| Validation AUC-ROC | tuned LightGBM 0.704, default LightGBM 0.697, Logistic Regression 0.642, baseline 0.500 |
-| Test F1 / Precision / Recall @ 0.5 | 0.643 / 0.642 / 0.644 |
-| Top-decile precision, as sampled (50% churn) | 81.5% (95% CI 79.7-83.2%) |
-| Top-decile precision, corrected to 3% monthly churn | ~9% (3x the real average) |
-| Top-10% campaign, net per 100k customers (24 months) | +$2.4M as sampled, -$0.2M at 3% real churn |
+| Metric                                                   | Value                                                                                             |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Final model                                              | LightGBM, Optuna-tuned, 5-seed average (102 features)                                             |
+| Test AUC-ROC                                             | 0.703 (95% CI 0.696-0.709)                                                                        |
+| Validation AUC-ROC                                       | tuned LightGBM 0.704, default LightGBM 0.697, Logistic Regression 0.642, baseline 0.500           |
+| Test F1 / Precision / Recall @ 0.5                       | 0.643 / 0.642 / 0.644                                                                             |
+| Top-decile precision, as sampled (50% churn)             | 81.5% (95% CI 79.7-83.2%)                                                                         |
+| Top-decile precision, corrected to 3% monthly churn      | ~9% (3x the real average)                                                                         |
+| Top-10% campaign, net per 100k customers (24 months)     | +$2.4M as sampled, -$0.2M at 3% real churn                                                        |
 | Expected-value campaign (contact if corrected p > 13.9%) | +$23k per 100k (0.7% of base contacted); +$270k if the offer costs a quarter of a month's revenue |
-| Pilot size for a reliable answer | ~490 customers per arm |
+| Pilot size for a reliable answer                         | ~490 customers per arm                                                                            |
 
 <p align="center">
   <img src="figures/gains_by_decile.png" width="620" alt="Actual churn rate by predicted risk decile">
@@ -67,10 +67,10 @@ The profitable design:
 1. **Score every customer monthly** and contact only those whose expected value is positive: corrected churn probability x retention success x 24 months x their own revenue, minus the offer cost (Elkan, 2001; Verbeke et al., 2012). At current assumptions that is under 1% of the base.
 2. **Match the offer to the driver:**
 
-| Track | Target | Offer |
-|---|---|---|
-| Equipment upgrade | Positive-value customers with handsets over 1 year old | Early upgrade, device discount, bundle |
-| Pre-renewal loyalty | Positive-value customers at 10-15 months tenure | Loyalty discount, renewal perk, plan review |
+| Track               | Target                                                 | Offer                                       |
+| ------------------- | ------------------------------------------------------ | ------------------------------------------- |
+| Equipment upgrade   | Positive-value customers with handsets over 1 year old | Early upgrade, device discount, bundle      |
+| Pre-renewal loyalty | Positive-value customers at 10-15 months tenure        | Loyalty discount, renewal perk, plan review |
 
 3. **Push down the offer cost.** It matters more than accuracy. At half a month's revenue about 5% of the base is worth contacting; at a quarter of a month, about 29%, for roughly +$270k per 100k.
 4. **Run a randomised pilot** (~490 customers per arm, offer vs no offer) to measure the real retention rate and cost per save. That sets the contact threshold and provides the treatment/control data needed for uplift modelling.
@@ -170,9 +170,3 @@ Business case and campaign design
 - Verbeke, W., Dejaeger, K., Martens, D., Hur, J., & Baesens, B. (2012). New insights into churn prediction in the telecommunication sector: A profit driven data mining approach. *European Journal of Operational Research*, 218(1), 211-229. https://www.sciencedirect.com/science/article/abs/pii/S0377221711008599
 - Künzel, S. R., Sekhon, J. S., Bickel, P. J., & Yu, B. (2019). Metalearners for estimating heterogeneous treatment effects using machine learning. *PNAS*, 116(10), 4156-4165. https://doi.org/10.1073/pnas.1804597116
 - Radcliffe, N. J. (2007). Using control groups to target on predicted lift: Building and assessing uplift models. *Direct Marketing Analytics Journal*, 1, 14-21.
-
-Parts of the analysis and write-up were reviewed and refined with Claude (Anthropic).
-
----
-
-Kieran McKend | BSc Computer Science, University of Cape Town | [GitHub @greenbelt88](https://github.com/greenbelt88)
